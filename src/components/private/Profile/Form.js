@@ -2,47 +2,38 @@ import React, { Component } from "react";
 import TextInput from "../../reusable/forms/inputs/TextInput";
 import TextArea from "../../reusable/forms/inputs/TextArea";
 import { reduxForm, Field } from "redux-form";
+import Select from "../../reusable/forms/inputs/selects/Select";
 
-// haungzon
-// Kyaikmaraw
-// Mawlamyine
-// Mudon
-// Thanbyuzayat
-// Ye
-// ['haungzon' , 'Kyaikmaraw' , 'Mawlamyine' , 'Mudon' , 'Thanbyuzayat' , 'Ye' ]
 class Form extends Component {
 	state = {
 		regions: {
 			Kachin: [
-				"hamo",
-				"Mansi",
-				"Momauk",
-				"Shwegu",
-				"Dotphoneyan",
-				"Lwegel",
-				"Myohla"
+				{ label: "hamo", value: "hamo" },
+				{ label: "Mansi", value: "Mansi" },
+				{ label: "Momauk", value: "Momauk" },
+				{ label: "Shwegu", value: "Shwegu" },
+				{ label: "Myohla", value: "Myohla" }
 			],
-			mawlamyine: [
-				"haungzon",
-				"Kyaikmaraw",
-				"Mawlamyine",
-				"Mudon",
-				"Thanbyuzayat",
-				"Ye"
-			],
-			bago: ["adaung", "Paukkaung", "Paungde", "Pyay", "Shwedaung", "Thegon"]
+			Mon: [
+				{ label: "haungzon", value: "haungzon" },
+				{ label: "Kyaikmaraw", value: "Kyaikmaraw" },
+				{ label: "haungzon", value: "haungzon" },
+				{ label: "Mudon", value: "Mudon" },
+				{ label: "Thanbyuzayat", value: "Thanbyuzayat" }
+			]
 		}
 	};
 
 	getTownship = region => {};
 
 	render() {
-		console.log("user12222", this.props.user);
+		console.log("approved", this.props.approved);
 		return (
 			<div>
 				<form>
 					<div className="container my-2 py-2 text-center ">
 						<h2 className="text-center display-4">Local User Profile</h2>
+
 						<div className="row">
 							<div className="col-md-4">
 								<Field
@@ -69,21 +60,41 @@ class Form extends Component {
 							</div>
 							<div className="col-md-4">
 								<Field
-									component={TextArea}
-									name="address.line1"
-									placeholder="line1"
+									component={Select}
+									name="address.region"
+									options={[
+										{
+											label: "ayeyarwaddy",
+											value: "ayeyarwaddy"
+										}
+									]}
+									placeholder="select region"
 								/>
 							</div>
 							<div className="col-md-4">
 								<Field
-									component={TextArea}
-									name="address.line1"
-									placeholder="line1"
+									component={Select}
+									name="address.township"
+									options={[
+										{
+											label: "nyaungdone",
+											value: "nyaungdone"
+										}
+									]}
+									placeholder="select region"
+								/>
+							</div>
+							<div className="col-md-4">
+								<span>Approved</span>
+								<input
+									className="form-control"
+									value={`${this.props.approved ? "true" : "false"}`}
+									disabled
 								/>
 							</div>
 						</div>
 						<button
-							className="btn"
+							className="btn my-2 py-2"
 							style={{
 								backgroundColor: "#43e97b",
 								color: "#fff"

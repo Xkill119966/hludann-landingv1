@@ -88,10 +88,10 @@ export function auth() {
 			const userData = await axiosInstance.get(
 				`${URL}api/v1/users/auth?type=LOCAL`
 			);
+
+			console.log("userData", userData);
 			// kick user out
-			if (!userData.data.success) {
-				dispatch(push("/auth"));
-			}
+
 			console.log("userData", userData);
 			dispatch({
 				type: AUTH_USER,

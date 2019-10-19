@@ -44,7 +44,6 @@ class SelectInput extends React.Component {
 				return (
 					<div className="form-group mb-3">
 						<CreatableSelect
-							isClearable
 							isDisabled={isLoading}
 							isLoading={isLoading}
 							placeholder={placeholder}

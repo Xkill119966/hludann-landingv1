@@ -32,11 +32,11 @@ class Dash extends Component {
 					<div className="ml-auto">
 						<a className="text-white">
 							Welcome{" "}
-							{/* {`${
-								this.props.user
-									? this.props.user.userData.user.user_id.username
+							{`${
+								this.props.user && this.props.user.user
+									? this.props.user.user.user_id.username
 									: "no name"
-							}`} */}
+							}`}
 						</a>
 						<UncontrolledDropdown nav inNavbar>
 							<DropdownToggle nav caret>

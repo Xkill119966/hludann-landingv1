@@ -14,7 +14,10 @@ class Profile extends Component {
 				<div>
 					<Form
 						submitCallback={this.submitHandler}
-						user={this.props.user ? this.props.user.user.user_id : null}
+						initialValues={
+							this.props.user ? this.props.user.user.user_id : null
+						}
+						approved={this.props.user && this.props.user.approved}
 					/>
 				</div>
 			</Fragment>
