@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import styles from "./Login.module.css";
 import Form from "./LoginForm";
+import { loginUser } from "../../../actions/userActions";
+import { connect } from "react-redux";
+
 class Login extends Component {
-	submitHandler = data => {};
+	submitHandler = data => {
+		console.log("data", data);
+		this.props.loginUser(data);
+	};
 	render() {
 		return (
 			<div className=" container my-3  shadow">
@@ -22,4 +28,13 @@ class Login extends Component {
 	}
 }
 
-export default Login;
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = {
+	loginUser
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Login);

@@ -1,6 +1,19 @@
 import React from "react";
 import { reduxForm, Field } from "redux-form";
 import TextInput from "../../reusable/forms/inputs/TextInput";
+
+const validate = values => {
+	const errors = {};
+	if (!values.email) {
+		errors.email = "userid is required";
+	}
+
+	if (!values.password) {
+		errors.password = "password is required";
+	}
+
+	return errors;
+};
 function LoginForm({ handleSubmit, submitCallBack }) {
 	return (
 		<div className="container my-2 py-2 text-center">
@@ -33,5 +46,6 @@ function LoginForm({ handleSubmit, submitCallBack }) {
 }
 
 export default reduxForm({
-	form: "login"
+	form: "login",
+	validate
 })(LoginForm);

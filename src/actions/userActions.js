@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { push } from "connected-react-router";
 import {
 	LOGIN_USER,
 	AUTH_USER,
@@ -20,34 +20,40 @@ const URL = process.env.NODE_ENV === "development" ? endpoint : prodEndpoint;
 const axiosInstance = axiosService.getInstance();
 
 export function registerUser(dataToSubmit) {
-	//   const request = axios.post(`${USER_SERVER}/register`,dataToSubmit)
-	//       .then(response => response.data);
-	//   return {
-	//       type: REGISTER_USER,
-	//       payload: request
-	//   }
-}
-
-export function loginUser(dataToSubmit, history) {
-	return async dispatch => {
-		try {
-			dispatch(asyncActionStart());
-			const response = await axios.post(
-				`${URL}api/v1/users/login`,
-				dataToSubmit
-			);
-
-			if (response.data.success) {
+	return dispatch => {
+		axios
+			.post(`${URL}api/v1/users/register?type=LOCAL`, dataToSubmit)
+			.then(async response => {
 				await authService.setToken(response.data.token);
-				history.push("/admin");
-				dispatch(asyncActionFinish());
-			} else {
+				dispatch(push("/dash"));
+			})
+			.catch(err => {
+				dispatch(push("/auth"));
 				dispatch({
 					type: GET_ERRORS,
-					payload: response.data.message
+					payload: err.response.data.err || "error in register"
 				});
-			}
-		} catch (error) {}
+			});
+	};
+}
+
+export function loginUser(dataToSubmit) {
+	return dispatch => {
+		axios
+			.post(`${URL}api/v1/users/login`, dataToSubmit)
+			.then(async response => {
+				console.log("response", response);
+				await authService.setToken(response.data.token);
+				dispatch(push("/dash"));
+			})
+			.catch(err => {
+				dispatch(push("/auth"));
+				console.log("err", err);
+				// dispatch({
+				// 	type: GET_ERRORS,
+				// 	payload: err.response.data.err || "error in login"
+				// });
+			});
 	};
 }
 
@@ -67,41 +73,41 @@ export function fbLogin(dataToSubmit, history) {
 				history.push("/user");
 				dispatch(asyncActionFinish());
 			}
-		} catch (error) {
-			console.log(error);
+		} catch (err) {
+			dispatch({
+				type: GET_ERRORS,
+				payload: err.response.data.err || "error in login"
+			});
 		}
 	};
 }
 
-export function auth(history, reload) {
-	//   const request = axios.get(`${USER_SERVER}/auth`)
-	//   .then(response => response.data);
-
-	//   return {
-	//       type: AUTH_USER,
-	//       payload: request
-	//   }
-
+export function auth() {
 	return async dispatch => {
 		try {
-			const userData = await axiosInstance.get("/users/auth");
-
+			const userData = await axiosInstance.get(
+				`${URL}api/v1/users/auth?type=LOCAL`
+			);
+			// kick user out
+			if (!userData.data.success) {
+				dispatch(push("/auth"));
+			}
+			console.log("userData", userData);
 			dispatch({
 				type: AUTH_USER,
 				payload: userData.data
 			});
-
-			// kick user out
-			if (!userData.data.isAuth && !reload) {
-				history.push("/");
-			}
-		} catch (error) {
-			console.log(error);
+		} catch (err) {
+			dispatch(push("/auth"));
+			dispatch({
+				type: GET_ERRORS,
+				payload: err.response.data.err || "error in login"
+			});
 		}
 	};
 }
 
-export const logoutUser = history => dispatch => {
-	authService.deleteToken();
-	window.location.reload();
+export const logoutUser = () => dispatch => {
+	localStorage.removeItem("auth_token");
+	dispatch(push("/auth"));
 };

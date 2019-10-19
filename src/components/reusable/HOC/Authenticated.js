@@ -7,7 +7,7 @@ import Loading from "../Loading/LoadingComponent1/LoadingComponent";
 export default function(ComposedClass) {
 	class AuthenticationCheck extends Component {
 		componentDidMount() {
-			// this.props.auth();
+			this.props.auth();
 		}
 
 		render() {
@@ -26,7 +26,7 @@ export default function(ComposedClass) {
 	}
 
 	const mapStateToProps = state => ({
-		user: state.user,
+		user: state.user.userData,
 		async: state.async,
 		browser: state.browser
 	});

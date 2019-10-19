@@ -1,8 +1,14 @@
 import React, { Component } from "react";
 import styles from "./Register.module.css";
 import Form from "./RegisterForm";
+import { registerUser } from "../../../actions/userActions";
+import { connect } from "react-redux";
+
 class Register extends Component {
-	submitHandler = data => {};
+	submitHandler = data => {
+		// console.log("data", data);
+		this.props.registerUser(data);
+	};
 	render() {
 		return (
 			<div className=" container my-3  shadow">
@@ -25,4 +31,13 @@ class Register extends Component {
 	}
 }
 
-export default Register;
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = {
+	registerUser
+};
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Register);

@@ -6,6 +6,7 @@ import Authenticated from "./components/reusable/HOC/Authenticated";
 import ModalManager from "./components/reusable/modalManager/modalManager";
 import NotFound from "./components/NotFound";
 import AuthContainer from "./components/authentication/Authentication";
+import Dash from "./components/private/Dash";
 import { trackGoogleAnalytics } from "./services/ga/ga";
 
 class Routes extends React.Component {
@@ -23,6 +24,7 @@ class Routes extends React.Component {
 				<Switch>
 					<Route exact component={Home} path="/" />
 					<Route component={AuthContainer} path="/auth" />
+					<Route component={Dash} path="/dash" />
 					<Route path="*" component={NotFound} />
 				</Switch>
 
